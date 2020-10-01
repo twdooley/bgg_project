@@ -5,6 +5,7 @@ import requests
 import time, os
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from fake_useragent import UserAgent
 
 ua = UserAgent()
 user_agent = {'User-agent': ua.random}
@@ -23,7 +24,7 @@ def make_bgdf(passed_url=""):
     Returns:
         a merged DF of overall list with individual stats."""
     url = f'https://boardgamegeek.com/browse/boardgame{passed_url}'
-    response = requests.get(url, header = user_agent)
+    response = requests.get(url, headers=user_agent)
     response.status_code
 
     page = response.text 
