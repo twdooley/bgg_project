@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 from bs4 import BeautifulSoup
 import requests
 
@@ -75,6 +74,29 @@ def genre_df(passed_url = ""):
             else:
                 stat_dict['genres'] += "," +item
             print(stat_dict)
+        try:  #see if designer is available, append to stats_dict
+            designer_start = script_str.index('"boardgamedesigner":[{"name":')
+            designer_end = script_str.index(',"objecttype":"person"')
+            designer_str = script_str[int(designer_start + 22):int(designer_end)]
+
+            key, value = designer_str.split(':')
+            value = value.strip('"')
+            stat_dict['designer'] = value
+        except:
+            pass  # pass if not, continue
+
+        try:  #see if publisher is available. Append to stats_dict
+            publisher_start = script_str.index('"boardgamepublisher":[{"name":')
+            publisher_end = script_str.index('"objecttype":"company"')
+            publisher_str = script_str[int(publisher_start + 23):int(publisher_end - 1)]
+
+            key, value = publisher_str.split(':')
+            value = value.strip('"')
+            stat_dict['publish'] = value
+        except:
+            pass  # pass if not, continue
+
+
 
         index = soup.find('title').text
         index = index.split('|')[0]

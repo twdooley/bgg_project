@@ -5,6 +5,7 @@ import requests
 import time, os
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from fake_useragent import UserAgent
 
 ua = UserAgent()
 user_agent = {'User-agent': ua.random}
@@ -23,7 +24,7 @@ def make_bgdf(passed_url=""):
     Returns:
         a merged DF of overall list with individual stats."""
     url = f'https://boardgamegeek.com/browse/boardgame{passed_url}'
-    response = requests.get(url, header = user_agent)
+    response = requests.get(url, headers = user_agent)
     response.status_code
 
     page = response.text 
@@ -104,6 +105,63 @@ def make_bgdf(passed_url=""):
                 stat_dict[key] = value
         except:
             pass #pass if not, continue
+        
+        #Get theme/genres if available
+        
+        try:
+
+            theme_start = script_str.index('"prettyname":')
+            theme_end = script_str.index('}],"polls":{"')
+            theme_str = script_str[int(theme_start):int(theme_end)]
+
+            theme_dict = {}
+            theme_remove_comma = theme_str.split(",")
+            for string in theme_remove_comma:
+                key,value = string.split(':')
+                key = key.strip('"')
+                value = value.strip('"')
+                if key not in theme_dict.keys():
+                    theme_dict[key] = value
+                else:
+                    theme_dict[key] += ", "+ value
+
+            #find genres by unique index
+            genres = theme_dict['veryshortprettyname']
+            #clean genre information, remove Overall rank, strip, split. 
+            genres = genres.replace("Overall, ", "")
+            genres = genres.strip()
+            split_genres = genres.split(',')
+
+            for item in split_genres:
+                if 'genres' not in stat_dict.keys():
+                    stat_dict['genres'] = item
+                else:
+                    stat_dict['genres'] += "," +item
+        except:
+            pass
+        #see if designer is available, append to stats_dict
+        try:  
+            
+            designer_start = script_str.index('"boardgamedesigner":[{"name":')
+            designer_end = script_str.index(',"objecttype":"person"')
+            designer_str = script_str[int(designer_start + 22):int(designer_end)]
+
+            key, value = designer_str.split(':')
+            value = value.strip('"')
+            stat_dict['designer'] = value
+        except:
+            pass  # pass if not, continue
+
+        try:  #see if publisher is available. Append to stats_dict
+            publisher_start = script_str.index('"boardgamepublisher":[{"name":')
+            publisher_end = script_str.index('"objecttype":"company"')
+            publisher_str = script_str[int(publisher_start + 23):int(publisher_end - 1)]
+
+            key, value = publisher_str.split(':')
+            value = value.strip('"')
+            stat_dict['publish'] = value
+        except:
+            pass  # pass if not, continue
         
         #Get top pricing on BGG, except and pass if not available. Need Selenium
         try:
