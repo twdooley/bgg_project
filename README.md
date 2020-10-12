@@ -1,5 +1,6 @@
 # BoardGameGeek Game Rank Analysis
 ## Contents 
+**NB** The main notebook of model creation is found in this directory as `model_creation.ipynb`.
 ### **Problem**
 -------------------------------
 BoardGameGeek.com (BGG) is a boardgame database website that includes tens of thousands of entries. The data for each game includes the game's complexity, rating, designer, publisher, among many other points. Games are ranked according to BGG own ranking system. Further, they provide a 'Geek' rating alongside their user provided rating average to evaluate ranking. <br>
