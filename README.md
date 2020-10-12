@@ -1,4 +1,6 @@
 # BoardGameGeek Game Rank Analysis
+## Timothy W. Dooley (LASSO)
+## Metis
 ## Contents 
 **NB** The main notebook of model creation is found in this directory as `model_creation.ipynb`.
 ### **Problem**
@@ -133,7 +135,10 @@ Data columns (total 113 columns):
  
  Columns with suffix `des` represent mean values for a designer appended to each game they designed. Likewise, `pub` represents mean publisher data. <br>
  Genre columns are encoded with dummy variables (0,1). <br>
- `quality` entries include dummy variables with 1 being average or above average for designer/publisher. 
+ `quality` entries include dummy variables with 1 being average or above average for designer/publisher. <br>
+ <br>
+ The following heatmap demonstrates the features I chose to focus on. 
+![https://github.com/twdooley/bgg_project/blob/master/graphs/heatmap.png?raw=true](https://github.com/twdooley/bgg_project/blob/master/graphs/heatmap.png?raw=true)
  
 ### **Results**
 ----------------------------
@@ -145,8 +150,11 @@ sub_df['log_geek_pub'] = np.log(sub_df['geek_pub'])
 ```
 <br>
 Our target/response variable is the ranking on BGG. <br>
-The R2 of this model is `0.60`.
+The R2 of this model is `0.60` . <br>
 
+![https://github.com/twdooley/bgg_project/blob/master/graphs/FM_test.png?raw=true](https://github.com/twdooley/bgg_project/blob/master/graphs/FM_test.png?raw=true)
+
+The above model scores `0.61` on test data. I was able to eliminate negative output variables by taking the log of the output and using a polynomial fit. <br>
 
 ### **Moving Forward**
 ----------------------------
