@@ -145,11 +145,12 @@ sub_df['log_geek_pub'] = np.log(sub_df['geek_pub'])
 ```
 <br>
 Our target/response variable is the ranking on BGG. <br>
-The R2 of this model is 0.54.
+The R2 of this model is `0.60`.
 
 
 ### **Moving Forward**
 ----------------------------
+Better pricing information would be helpful. As many games sold on marketplaces are collector items, pricing contains numerous outliers. 
 
 ### **Appendix** 
 ----------------------------
