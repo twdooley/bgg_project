@@ -150,7 +150,14 @@ sub_df['log_geek_pub'] = np.log(sub_df['geek_pub'])
 ```
 <br>
 Our target/response variable is the ranking on BGG. <br>
+<br>
+
 The R2 of this model is `0.60` . <br>
+
+Mean Absolute Error:
+
+```'Train MAE:', 0.4198582356908472, 'Test MAE:', 0.40880771810103766```
+
 
 ![https://github.com/twdooley/bgg_project/blob/master/graphs/FM_test.png?raw=true](https://github.com/twdooley/bgg_project/blob/master/graphs/FM_test.png?raw=true)
 
